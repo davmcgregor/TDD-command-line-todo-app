@@ -8,7 +8,7 @@
 * IDs should automatically be generated on todos
 * Complete a todo by typign a command e.g. "DONE" - and giving the program an id of that todo
 
-Every time a command is written / the program is opened, the list appears
+- Every time a command is written / the program is opened, the list appears
 - Every time start the program, the complete list of todos appears
 - Every time start the program, see a list of incomplete todos with the option to finish
 
