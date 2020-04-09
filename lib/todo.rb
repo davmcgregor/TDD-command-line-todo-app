@@ -6,8 +6,9 @@ class Todo
     puts []
   end
   
-  def Add(input)
+  def add(input)
     @list << input
-    puts "hello"
+    puts input
   end
+
 end
