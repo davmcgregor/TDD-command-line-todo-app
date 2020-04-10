@@ -6,6 +6,10 @@ describe Todo do
       expect(subject.list).to eq([])
     end
 
+    it 'initializes with an empty done list' do
+      expect(subject.done_list).to eq([])
+    end
+
     it 'prints the todo list to the console' do
       expect do
         myTodo = Todo.new
