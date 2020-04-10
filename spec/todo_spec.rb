@@ -12,62 +12,85 @@ describe Todo do
   end
 
   describe '#print_list' do
-    it 'prints an empty todo list' do
-      expect { subject.print_list }.to output("\nHere is your Todo list:\n-------------------------------------\nempty\n").to_stdout
+    it 'prints empty if there are no todos' do
+      expect { subject.print_list }.to output("empty\n").to_stdout
     end
 
     it 'prints the todo list with an index' do
-      subject.list << "This is test todo number 1"
-      expect { subject.print_list }.to output("\nHere is your Todo list:\n-------------------------------------\n1. This is test todo number 1\n").to_stdout
+      subject.list << "This is todo number 1"
+      subject.list << "This is todo number 2"
+      expect { subject.print_list }.to output("1. This is todo number 1\n2. This is todo number 2\n").to_stdout
     end
   end
 
   describe '#print_done_list' do
-    it 'prints an empty done list' do
-      expect { subject.print_done_list }.to output("\nHere is your Completed list:\n-------------------------------------\nempty\n").to_stdout
+    it 'prints empty if there are no done todos' do
+      expect { subject.print_done_list }.to output("empty\n").to_stdout
     end
 
     it 'prints the done list with an index' do
-      subject.done_list << "This is test done number 1"
-      expect { subject.print_done_list }.to output("\nHere is your Completed list:\n-------------------------------------\n1. This is test done number 1\n").to_stdout
+      subject.done_list << "This is todo number 1"
+      subject.done_list << "This is todo number 2"
+      expect { subject.print_done_list }.to output("1. This is todo number 1\n2. This is todo number 2\n").to_stdout
     end
   end
 
   describe '#add' do
-    it 'allows a user to ADD a todo' do
-      allow(subject).to receive(:gets).and_return("ADD\n", "This is todo 1\n", "exit\n")
-      subject.add
-      expect(subject.list).to eq(["This is todo 1\n"])
+    it 'adds a todo to the list' do
+      subject.add("This is todo number 1")
+      expect(subject.list).to eq(["This is todo number 1"])
+    end
+
+    it 'adds multiple todos to the list' do
+      subject.add("This is todo number 1")
+      subject.add("This is todo number 2")
+      expect(subject.list).to eq(["This is todo number 1", "This is todo number 2"])
     end
   end
 
-  #   it 'adds a todo item' do
-  #     displayer.stub(:gets).and_return("ADD\n")
-  #     expect(displayer.meny)
-  #     expect do
-  #       subject.menu
-  #     end.to output("Please enter new todo: \n").to_stdout
-  #   end
-  
-  #   # it 'Prints out a selection of commands' do
-  #   #   expect do
-  #   #     subject.menu
-  #   #   end.to output("\nType ADD, EDIT, DONE or exit: ").to_stdout
-  #   # end
+  describe '#edit' do
+    it 'changes the test for an existing todo' do
+      subject.add("This is todo number 1")
+      subject.edit(1, "This is edited todo number 1")
+      expect(subject.list).to eq(["This is edited todo number 1"])
+    end
+  end
 
-  # end
+  describe '#done' do
+    it 'copies a todo from the list array to done list' do
+      subject.add("This is todo number 1")
+      subject.done(1)
+      expect(subject.done_list).to eq(["This is todo number 1"])
+    end
 
-  # describe '#add' do
-  #   it 'Prints a todo item to the console' do
-  #     expect do
-  #       subject.add("this is a test todo")
-  #     end.to output("1. this is a test todo\n").to_stdout
-  #   end
+    it 'deletes a done from the todo list array' do
+      subject.add("This is todo number 1")
+      subject.done(1)
+      expect(subject.list).to eq([])
+    end
+  end
 
-  #   it 'adds a todo item to the todo list' do
-  #     subject.add("this is a test todo")
-  #     expect(subject.list).to include("this is a test todo")
-  #   end
-  # end
+  describe '#start' do
+    it 'prints the todo and done lists' do
+      expect { subject.start }.to output("\nHere is your Todo list: \n-------------------------------------\nempty\n\nHere is your Completed list: \n-------------------------------------\nempty\n\nType ADD, EDIT, DONE or exit: \n").to_stdout
+    end
 
+    it 'allows the user to add a todo' do
+      subject.add("This is todo number 1")
+      expect { subject.start }.to output("\nHere is your Todo list: \n-------------------------------------\n1. This is todo number 1\n\nHere is your Completed list: \n-------------------------------------\nempty\n\nType ADD, EDIT, DONE or exit: \n").to_stdout
+    end
+
+    it 'allows the user to edit a todo' do
+      subject.add("This is todo number 1")
+      subject.edit(1, "This is todo number one")
+      expect { subject.start }.to output("\nHere is your Todo list: \n-------------------------------------\n1. This is todo number one\n\nHere is your Completed list: \n-------------------------------------\nempty\n\nType ADD, EDIT, DONE or exit: \n").to_stdout
+    end
+
+    it 'allows the user to make a todo done' do
+      subject.add("This is todo number 1")
+      subject.done(1)
+      expect { subject.start }.to output("\nHere is your Todo list: \n-------------------------------------\nempty\n\nHere is your Completed list: \n-------------------------------------\n1. This is todo number 1\n\nType ADD, EDIT, DONE or exit: \n").to_stdout
+    end
+
+  end
 end

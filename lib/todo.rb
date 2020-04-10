@@ -41,10 +41,10 @@ class Todo
 
   def start
   loop do
-    puts "\nHere is your Todo list:"
+    puts "\nHere is your Todo list: "
     puts "-" * 37
     print_list
-    puts "\nHere is your Completed list:"
+    puts "\nHere is your Completed list: "
     puts "-" * 37
     print_done_list
     puts "\nType ADD, EDIT, DONE or exit: "
