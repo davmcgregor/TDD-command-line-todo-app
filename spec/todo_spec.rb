@@ -80,6 +80,18 @@ describe Todo do
       expect { subject.start }.to output("\nHere is your Todo list: \n-------------------------------------\n1. This is todo number 1\n\nHere is your Completed list: \n-------------------------------------\nempty\n\nType ADD, EDIT, DONE or exit: \n").to_stdout
     end
 
+    # it 'allows the user to input a todo' do
+    #   subject { Todo.new }
+    #   before do
+    #     allow(subject).to receive(:gets).and_return("ADD\n", "This is test number 1\n", "exit\n")
+    #   end
+      
+    #   specify do
+    #     expect(Todo).to receive(:add).with("This is test number 1\n")
+    #     subject.start
+    #   end
+    # end
+
     it 'allows the user to edit a todo' do
       subject.add("This is todo number 1")
       subject.edit(1, "This is todo number one")
